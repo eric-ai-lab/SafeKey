@@ -1,0 +1,14 @@
+datasets/
+data/
+__pycache__/
+.cache/
+ckpts/
+wandb/
+STAR_1.egg-info/
+
+*.html
+*.out
+*.json
+*.csv
+
+show_data/
