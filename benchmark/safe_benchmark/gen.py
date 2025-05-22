@@ -83,7 +83,7 @@ def input_proc(inst, target, tokenizer, args, system_prompt, run_api=False):
                                                     add_generation_prompt=True
                                                 )
             if target:
-                text += "" + prefill_text
+                text += " " + prefill_text
         else:
             text = f'''## Instruction: {inst}\n## Response: '''
         return text
