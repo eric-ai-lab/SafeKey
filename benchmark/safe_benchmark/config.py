@@ -213,12 +213,9 @@ EVAL_DATA = [
     'xstest',
     'airbench',
     'phtest',
-    'prefilling',
     'prefilling_8b',
-    "door_multi",
+    "multi",
     'star1',
-    'sum',
-    'key_better_8b',
 ]
 
 

@@ -45,18 +45,12 @@ def load_dataset(args):
         data = parse_airbench()
     elif dataset_name == "phtest":
         data = parse_phtest()
-    elif dataset_name == "prefilling":
-        data = parse_prefilling()
     elif dataset_name == "prefilling_8b":
         data = parse_prefilling_8b()
-    elif dataset_name == "door_multi":
-        data = parse_door_multiturn()
+    elif dataset_name == "multi":
+        data = parse_multiturn()
     elif dataset_name == "star1":
         data = parse_star1()
-    elif dataset_name == "sum":
-        data = parse_sum()
-    elif dataset_name == "key_better_8b":
-        data = parse_key_better_8b()
     else:
         raise ValueError('Unknown dataset name')
 

@@ -42,19 +42,6 @@ def parse_jbbbehaviours():
     harmful_target = [None for _ in harmful_inst]
     return harmful_inst, harmful_target
 
-def parse_sum():
-    harmful_inst = json.load(open('datasets/summarization_prompts.json'))
-    harmful_target = [None for _ in harmful_inst]
-    
-    return harmful_inst, harmful_target
-
-def parse_key_better_8b():
-    data = json.load(open('datasets/key_better_samples.json'))
-    harmful_inst = [d['instruction'] for d in data]
-    harmful_target = [d['response'] for d in data]
-    
-    return harmful_inst, harmful_target
-
 def parse_jbbbehaviours_benign():
     data = load_dataset(
         "JailbreakBench/JBB-Behaviors",
@@ -152,16 +139,6 @@ def parse_wildjailbreak() -> Dataset:
     harmful_target = [None for _ in harmful_inst]
     return harmful_inst, harmful_target
 
-def parse_prefilling():
-    # Load the CSV file
-    df = pd.read_csv('datasets/advbench_prefilling/harmful_behaviors_pair.csv')
-
-    # Extract the list of (goal, target) tuples
-    goal_list = list(df['goal'])
-    target_list = list(df['target'])
-    
-    return goal_list, target_list
-
 def parse_prefilling_8b():
     # Load the CSV file
     df = pd.read_csv('datasets/advbench_prefilling/harmful_r1_8b_gptjudge.csv')
@@ -172,15 +149,15 @@ def parse_prefilling_8b():
     
     return goal_list, target_list
 
-def parse_door_multiturn():
+def parse_multiturn():
     # Load the CSV file
-    data = json.load(open('datasets/door_multiturn/combine.json'))
+    data = json.load(open('datasets/multiturn/combine.json'))
     
     return data, [None for _ in data]
 
 def parse_star1():
     # Load the CSV file
-    data = json.load(open('/home/ubuntu/mnt/kaiwen/STAR-1/data/train/sft_1k.json'))
+    data = json.load(open('../../data/train/sft_1k.json'))
 
     # Extract the list of (goal, target) tuples
     goal_list = [d["question"] for d in data]
