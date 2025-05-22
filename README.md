@@ -9,11 +9,12 @@
 ## Introduction
 
 <img src="./figures/fig1.png" alt="main" style="zoom: 33%;" />
-<img src="./figures/fig2.png" alt="main" style="zoom: 33%;" />
 
-- 
-- 
-- 
+- SFT LRMs are vulnerable to jailbreaks.
+- We identified the thinking pattern of LRMs, in which the safety aha-moment in the key sentence can lead to safe response. 
+
+<img src="./figures/fig2.png" alt="main" style="zoom: 33%;" />
+- We proposed the SafeKey framework to improve LRM safety alignment. 
 
 
 ## Artifacts
