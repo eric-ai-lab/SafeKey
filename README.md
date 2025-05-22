@@ -8,8 +8,8 @@
 
 ## Introduction
 
-<img src="./figures/fig1.pdf" alt="main" style="zoom: 33%;" />
-<img src="./figures/fig2.pdf" alt="main" style="zoom: 33%;" />
+<img src="./figures/fig1.png" alt="main" style="zoom: 33%;" />
+<img src="./figures/fig2.png" alt="main" style="zoom: 33%;" />
 
 - 
 - 
@@ -44,9 +44,9 @@
 
 ## Quick Start
 ```
-git clone https://github.com/UCSC-VLAA/STAR-1.git
-cd STAR-1
-pip install -e .
+git clone https://github.com/eric-ai-lab/SafeKey.git
+cd SafeKey
+conda env create -f environment.yml
 ```
 
 ## Training
@@ -58,32 +58,32 @@ The `run_sft.sh ` looks like:
 ```
 accelerate launch --config_file ./configs/deepspeed_zero3.yaml \
     --num_processes 8  \
-    --train_bsz_per_gpu 1 \
     --num_machines 1 \
     --machine_rank 0 \
     --deepspeed_multinode_launcher standard sft.py \
-    --model_path deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B \
-    --data_path ../data/STAR-1.json \
+    --model_path deepseek-ai/DeepSeek-R1-Distill-Llama-8B \
+    --data_path ../data/train/sft_mix_2k.json \
     --n_epochs 5 \
-    --experiment_name STAR-1 \
-    --base_model Qwen \
+    --experiment_name safe_lrm \
+    --base_model Llama \
     --base_flag 0 \
-    --think_flag 1
+    --think_flag 1 \
+    --output_dir /home/ubuntu/mnt/kaiwen/STAR-1/data/models/8b_safekey \
+    --train_bsz_per_gpu 2 \
+    --gradient_accumulation_steps 8 \
+    --safety_gate \
+    --key_sentence_prediction
 ```
-- `base_flag`: If distill model then 0 elif instruct model then 1
-- `think_flag`: default=1, if `w/o think` then 0 **(Sec 4.2)**
-- `train_bsz_per_gpu * num_processes` should be 8 to keep the batchsize as 128
-- You change the `model_path` to different model 
-- Or change the `data_path` to use different finetune data **(Sec 4.1)**
+- Change the `model_path` to different model 
 
 ## Evaluation
-You could change the `mode_path` of the evaluated model in `benchmark/config.py`.
+You could change the `mode_path` of the evaluated model in `benchmark/safe_benchmark/config.py`, and `benchmark/reasoning_benchmark/config.py`.
 ### Safety Benchmark
 ```
 cd benchmark/safe_benchmark
-bash scripts.sh $model $data
-# bash scripts.sh DeepSeek-R1-Distill-Qwen-1.5B strongreject
+bash scripts.sh
 ```
+Change the model that you want you evaluate in `scripts.sh`.
 
 ### Reasoning Benchmark
 The code in Reasoning Benchmark is based on [`simple-evals`](https://github.com/openai/simple-evals) and modified.
