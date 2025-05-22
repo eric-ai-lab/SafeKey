@@ -13,5 +13,5 @@ accelerate launch --config_file ./configs/deepspeed_zero3.yaml \
     --output_dir /home/ubuntu/mnt/kaiwen/STAR-1/data/models/8b_safekey \
     --train_bsz_per_gpu 2 \
     --gradient_accumulation_steps 8 \
-    --safety_gate \
+    --safety_head \
     --key_sentence_prediction

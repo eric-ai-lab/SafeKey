@@ -209,7 +209,7 @@ class SFTMetric:
             self.total_g_loss    += g_loss.detach()
 
     def get_metric(self, reset=True):
-        # Distributed aggregate
+        # Distributed aggrehead
         for t in (self.right, self.total,
                   self.right_k, self.total_k,
                   self.total_loss,
@@ -238,7 +238,7 @@ class SFTMetric:
         return acc, acc_k, mean_train_loss, mean_full_loss, mean_k_loss, mean_g_loss
 
 
-class SafetyGate(nn.Module):
+class SafetyHead(nn.Module):
     def __init__(self, hidden_size):
         super().__init__()
         self.C_head   = nn.Linear(hidden_size, 1)
@@ -301,14 +301,14 @@ def train(args):
         },
     ]
     
-    if args.safety_gate:
-        # attach the gate
+    if args.safety_head:
+        # attach the Head
         hidden_size        = model.config.hidden_size
-        model.safety_gate  = SafetyGate(hidden_size).to(model.device)
+        model.safety_head  = SafetyHead(hidden_size).to(model.device)
         
-        gate_params = list(model.safety_gate.named_parameters())
+        head_params = list(model.safety_head.named_parameters())
         optimizer_grouped_parameters.append({
-            "params": [p for n, p in gate_params if not any(nd in n for nd in no_decay)],
+            "params": [p for n, p in head_params if not any(nd in n for nd in no_decay)],
             "weight_decay": args.weight_decay,
         })
         
@@ -372,7 +372,7 @@ def train(args):
             input_ids=batch['input_ids']
             labels=batch['labels']
 
-            if args.safety_gate:
+            if args.safety_head:
                 output_hidden_states=True
             else:
                 output_hidden_states=False
@@ -382,10 +382,10 @@ def train(args):
             full_loss = output.loss
             loss = full_loss
             
-            
+            # key sentence prediction
             if args.key_sentence_prediction and epoch > args.n_epochs - args.last_k_epoch - 1:
                 k_mask = batch['k_mask'] # calculate the loss of key sentence prediction
-                attn_mask = batch['attn_mask']
+                attn_mask = batch['attn_mask'] # mask the query tokens
                 
                 if args.key_sentence_prediction_mask_ablation:
                     masked_out = model(input_ids=input_ids,
@@ -419,28 +419,28 @@ def train(args):
                 masked_out_logits = None
                 k_mask = None
                 
-            
-            if args.safety_gate and epoch > args.n_epochs - args.last_k_epoch - 1:
+            # safety Head
+            if args.safety_head and epoch > args.n_epochs - args.last_k_epoch - 1:
                 # 1) get the hidden states of the last layer
-                if args.detach_safety_gate:
+                if args.detach_safety_head:
                     hidden = output.hidden_states[-1].detach()         # (B, L, H)
                 else:
                     hidden = output.hidden_states[-1]                     # (B, L, H)
                 
-                logit_C, logit_ctx = model.safety_gate(hidden,
+                logit_C, logit_ctx = model.safety_head(hidden,
                                                batch["c_span"])
                 y = batch["unsafe"].float()
-                L_gate_C   = F.binary_cross_entropy_with_logits(logit_C,   y)
-                L_gate_ctx = F.binary_cross_entropy_with_logits(logit_ctx, y)
-                gate_loss  = args.gate_theta * L_gate_C + (1 - args.gate_theta) * L_gate_ctx
-                if args.detach_safety_gate:
-                    loss = gate_loss * args.gate_weight
+                L_head_C   = F.binary_cross_entropy_with_logits(logit_C,   y)
+                L_head_ctx = F.binary_cross_entropy_with_logits(logit_ctx, y)
+                head_loss  = args.head_theta * L_head_C + (1 - args.head_theta) * L_head_ctx
+                if args.detach_safety_head:
+                    loss = head_loss * args.head_weight
                 else:
-                    loss += gate_loss * args.gate_weight
+                    loss += head_loss * args.head_weight
             else:
-                gate_loss = torch.tensor(0.0).to(loss.device)
+                head_loss = torch.tensor(0.0).to(loss.device)
 
-            metric(output.logits, labels, loss, full_loss, k_loss, masked_out_logits, k_mask, gate_loss)
+            metric(output.logits, labels, loss, full_loss, k_loss, masked_out_logits, k_mask, head_loss)
             acc, acc_k, train_loss, full_loss_avg, k_loss_avg, g_loss_avg = metric.get_metric()
             accelerator.backward(loss)
             if (global_step+1) % accelerator.gradient_accumulation_steps == 0:
@@ -498,11 +498,11 @@ if __name__ == '__main__':
     parser.add_argument('--key_sentence_prediction_mask_ablation', action='store_true')
     parser.add_argument('--key_sentence_prediction', action='store_true')
     parser.add_argument('--key_sentence_weight', default=0.2, type=float)
-    parser.add_argument('--safety_gate', action='store_true')
-    parser.add_argument('--gate_theta', default=0.5, type=float)
-    parser.add_argument('--gate_weight', default=0.2, type=float)
+    parser.add_argument('--safety_head', action='store_true')
+    parser.add_argument('--head_theta', default=0.5, type=float)
+    parser.add_argument('--head_weight', default=0.2, type=float)
     parser.add_argument('--last_k_epoch', default=2, type=int)
-    parser.add_argument('--detach_safety_gate', action='store_true')
+    parser.add_argument('--detach_safety_head', action='store_true')
 
     # Other Args
     parser.add_argument('--seed', default=2002, type=int)
