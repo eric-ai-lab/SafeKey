@@ -100,15 +100,18 @@ If you want to change models, change `MODELS` inside the bash scrips `run_all_ev
 This codebase is build upon [STAR-1](https://github.com/UCSC-VLAA/STAR-1/tree/main), thanks to their great work!
 
 
-<!-- ## Citation -->
-<!-- ```
-@article{wang2025star1saferalignmentreasoning,
-    title={STAR-1: Safer Alignment of Reasoning LLMs with 1K Data}, 
-    author={Zijun Wang and Haoqin Tu and Yuhan Wang and Juncheng Wu and Jieru Mei and Brian R. Bartoldson and Bhavya Kailkhura and Cihang Xie},
-    year={2025},
-    journal = {arXiv preprint arXiv:2504.01903}
+## Citation
+```
+@misc{zhou2025safekeyamplifyingahamomentinsights,
+      title={SafeKey: Amplifying Aha-Moment Insights for Safety Reasoning}, 
+      author={Kaiwen Zhou and Xuandong Zhao and Gaowen Liu and Jayanth Srinivasa and Aosong Feng and Dawn Song and Xin Eric Wang},
+      year={2025},
+      eprint={2505.16186},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2505.16186}, 
 }
-``` -->
+```
 
 
 
