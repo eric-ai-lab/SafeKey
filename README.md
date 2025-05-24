@@ -1,8 +1,8 @@
 # SafeKey: Amplifying Aha-Moment Insights for Safety Reasoning
 
-<!-- <p align="center">
-📃 <a href="https://arxiv.org/abs/2504.01903" target="_blank">Paper</a> ｜🤗 <a href="https://huggingface.co/datasets/UCSC-VLAA/STAR-1" target="_blank">STAR-1 Data</a> | 🤗 <a href="https://huggingface.co/collections/UCSC-VLAA/star-1-67edda2a042e8ba3e955e522" target="_blank">STAR-1 Model</a> |  📚 <a href="https://ucsc-vlaa.github.io/STAR-1/" target="_blank">Project Page</a>
-</p> -->
+<p align="center">
+📃 <a href="https://arxiv.org/abs/2505.16186" target="_blank">Paper</a> ｜ 🤗 <a href="https://huggingface.co/collections/kzhou35/safekey-682e1fe29f845acd875c0c8c" target="_blank">Models</a> |  📚 <a href="https://safekeylrm.github.io/" target="_blank">Project Page</a>
+</p>
 
 [Kaiwen Zhou](https://kevinz-01.github.io/), [Xuandong Zhao](https://xuandongzhao.github.io/), [Gaowen Liu](https://scholar.google.com/citations?user=NIv_aeQAAAAJ&hl=en), [Jayanth Srinivasa](https://scholar.google.com/citations?user=HtNfeKYAAAAJ&hl=en), [Aosong Feng](https://scholar.google.com/citations?user=hFhhrmgAAAAJ&hl=en), [Dawn Song](https://dawnsong.io/), [Xin Eric Wang](https://eric-xw.github.io/)
 
