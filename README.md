@@ -102,14 +102,11 @@ This codebase is build upon [STAR-1](https://github.com/UCSC-VLAA/STAR-1/tree/ma
 
 ## Citation
 ```
-@misc{zhou2025safekeyamplifyingahamomentinsights,
-      title={SafeKey: Amplifying Aha-Moment Insights for Safety Reasoning}, 
-      author={Kaiwen Zhou and Xuandong Zhao and Gaowen Liu and Jayanth Srinivasa and Aosong Feng and Dawn Song and Xin Eric Wang},
-      year={2025},
-      eprint={2505.16186},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2505.16186}, 
+@article{zhou2025safekey,
+  title={SafeKey: Amplifying Aha-Moment Insights for Safety Reasoning},
+  author={Zhou, Kaiwen and Zhao, Xuandong and Liu, Gaowen and Srinivasa, Jayanth and Feng, Aosong and Song, Dawn and Wang, Xin Eric},
+  journal={arXiv preprint arXiv:2505.16186},
+  year={2025}
 }
 ```
 
