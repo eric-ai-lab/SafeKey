@@ -110,7 +110,7 @@ class Train_dataset(torch.utils.data.Dataset):
         # ─── locate token span of K ─────────────────────────────────
         c_ids = self.tokenizer.encode(understanding, add_special_tokens=False)
         k_ids = self.tokenizer.encode(key_sentence, add_special_tokens=False)
-        k_start = len(query_ids) + 1 + len(c_ids)        # index of first K token in the labels
+        k_start = len(query_ids) - 1 + len(c_ids)        # index of first K token in the labels, -1 for the extra <think>/n 
         k_end   = k_start + len(k_ids)               # exclusive
         
         # extra mask: 1 ⇔ token belongs to K
@@ -121,7 +121,7 @@ class Train_dataset(torch.utils.data.Dataset):
         # extra mask: 0 ⇔ token belongs to query
         attn_mask = [1] * len(input_ids)
         attn_mask[:len(query_ids)] = [0] * len(query_ids)
-        return {"input_ids": input_ids[-self.max_seq_len:], "labels": labels[-self.max_seq_len:], "k_mask": k_mask[-self.max_seq_len:], "attn_mask": attn_mask[-self.max_seq_len:], "c_span": [len(query_ids), len(query_ids) + 1 + len(c_ids)], "unsafe": 0 if da["source"] == "4o_rewrite" else 1}        
+        return {"input_ids": input_ids[-self.max_seq_len:], "labels": labels[-self.max_seq_len:], "k_mask": k_mask[-self.max_seq_len:], "attn_mask": attn_mask[-self.max_seq_len:], "c_span": [len(query_ids), k_start], "unsafe": 0 if da["source"] == "4o_rewrite" else 1}        
 
     def collate_fn(self, batch):
         data = [ self.get_prompt(da) for da in batch]
