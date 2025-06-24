@@ -76,7 +76,28 @@ accelerate launch --config_file ./configs/deepspeed_zero3.yaml \
     --safety_head \
     --key_sentence_prediction
 ```
-- Change the `model_path` to different model 
+- Change the `model_path` to different model. If training is based on Qwen-7B, make sure to adjust the parameters:
+```
+accelerate launch --config_file ./configs/deepspeed_zero3.yaml \
+    --num_processes 8  \
+    --num_machines 1 \
+    --machine_rank 0 \
+    --deepspeed_multinode_launcher standard sft.py \
+    --model_path deepseek-ai/DeepSeek-R1-Distill-Qwen-7B \
+    --data_path ../data/train/sft_mix_2k.json \
+    --n_epochs 10 \
+    --last_k_epoch 2 \
+    --experiment_name safe_lrm \
+    --base_model Llama \
+    --base_flag 0 \
+    --think_flag 1 \
+    --output_dir ../data/models/8b_safekey \
+    --train_bsz_per_gpu 2 \
+    --gradient_accumulation_steps 8 \
+    --safety_head \
+    --key_sentence_prediction
+```
+
 
 ## Evaluation
 You could change the `mode_path` of the evaluated model in `benchmark/safe_benchmark/config.py`, and `benchmark/reasoning_benchmark/config.py`.
