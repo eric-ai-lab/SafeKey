@@ -88,7 +88,7 @@ accelerate launch --config_file ./configs/deepspeed_zero3.yaml \
     --n_epochs 10 \
     --last_k_epoch 2 \
     --experiment_name safe_lrm \
-    --base_model Llama \
+    --base_model Qwen \
     --base_flag 0 \
     --think_flag 1 \
     --output_dir ../data/models/8b_safekey \
