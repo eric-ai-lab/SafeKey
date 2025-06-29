@@ -60,7 +60,7 @@ def load_dataset(args):
     return data
 
 def input_proc(inst, target, tokenizer, args, system_prompt, run_api=False):
-    if args.data == 'door_multi':
+    if args.data == 'multi':
         msg = inst["conversation"]
     else:
         msg = []
@@ -127,7 +127,7 @@ def main(args):
 
     resp = model.generate(prompts, sampling_params=sampling_params)
     for inst, prompt, resp_out in zip(harmful_inst, prompts,  resp):
-        if args.data == 'door_multi':
+        if args.data == 'multi':
             data = {
                 'instruction': inst['objective'],
                 'prompt': prompt,
