@@ -86,7 +86,7 @@ accelerate launch --config_file ./configs/deepspeed_zero3.yaml \
     --model_path deepseek-ai/DeepSeek-R1-Distill-Qwen-7B \
     --data_path ../data/train/sft_mix_2k.json \
     --n_epochs 10 \
-    --last_k_epoch 2 \
+    --last_k_epoch 4 \
     --experiment_name safe_lrm \
     --base_model Qwen \
     --base_flag 0 \
