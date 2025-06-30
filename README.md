@@ -91,7 +91,7 @@ accelerate launch --config_file ./configs/deepspeed_zero3.yaml \
     --base_model Qwen \
     --base_flag 0 \
     --think_flag 1 \
-    --output_dir ../data/models/8b_safekey \
+    --output_dir ../data/models/7b_safekey \
     --train_bsz_per_gpu 2 \
     --gradient_accumulation_steps 8 \
     --safety_head \
